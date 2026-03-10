@@ -5,4 +5,9 @@
   align-items: center;
   justify-content: center;
   background: #f7f7f7;
+  .imageContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
 }
