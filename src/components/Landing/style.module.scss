@@ -4,34 +4,36 @@
   background: #0f0f0f;
   overflow: hidden;
   position: relative;
-}
+  .container {
+    display: flex;
+    gap: 2rem;
+    padding: 0 2rem;
+    width: max-content;
+    height: 100%;
+    align-items: center;
+    will-change: transform;
 
-.container {
-  display: flex;
-  gap: 2rem;
-  padding: 0 2rem;
-  width: max-content;
-  height: 100%;
-  align-items: center;
-  will-change: transform;
-}
+    .imageContainer {
+      position: relative;
+      width: 20vw;
+      height: 40vh;
+      min-width: 300px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 
-.imageContainer {
-  position: relative;
-  width: 20vw;
-  height: 40vh;
-  min-width: 300px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      img {
+        object-fit: cover;
+        cursor: pointer;
+        filter: grayscale(1);
+        transition: filter 0.3s ease;
+      }
 
-  img {
-    object-fit: cover;
-    cursor: pointer;
-    filter: grayscale(1);
-    transition: filter 0.3s ease;
+      &:hover img {
+        filter: grayscale(0);
+      }
+    }
   }
 
-  &:hover img {
-    filter: grayscale(0);
-  }
+
 }
+

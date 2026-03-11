@@ -34,7 +34,6 @@ export default function Landing() {
         const container = containerRef.current;
         const section = sectionRef.current;
 
-        // Calculate total scroll width
         const getScrollAmount = () => container.scrollWidth - window.innerWidth;
 
         gsap.to(container, {
