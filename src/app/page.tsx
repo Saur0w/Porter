@@ -3,15 +3,30 @@
 import styles from "./page.module.css";
 import Landing from "@/components/Landing";
 import Preloader from "@/components/Preloader";
-import {useState, useRef} from "react";
+import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import Lenis from "lenis";
 
 export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const preloaderRef = useRef<HTMLDivElement>(null);
     const pageRef = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        const lenis = new Lenis();
+
+        function raf(time: number) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        return () => {
+            lenis.destroy();
+        };
+    }, []);
     useGSAP(() => {
         setTimeout(() => {
             document.body.style.cursor = "default";
