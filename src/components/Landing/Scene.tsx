@@ -1,42 +1,60 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Suspense, useRef, useState, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import styles from "./scene.module.scss";
+import { vertexShader, fragmentShader } from "@/lib/Shader";
 
-interface ImageMeshProps {
-    src: string;
+function ShaderMesh({ src }: { src: string }) {
+    const meshRef = useRef<THREE.Mesh>(null);
+    const materialRef = useRef<THREE.ShaderMaterial>(null);
+    const texture = useTexture(src);
+    const [hovered, setHover] = useState(false);
+
+    const uniforms = useMemo(() => ({
+        uTexture: { value: texture },
+        uHover: { value: 0.0 }
+    }), [texture]);
+
+    useFrame((state, delta) => {
+        if (materialRef.current) {
+            const target = hovered ? 1.0 : 0.0;
+            materialRef.current.uniforms.uHover.value = THREE.MathUtils.lerp(
+                materialRef.current.uniforms.uHover.value,
+                target,
+                delta * 5
+            );
+        }
+    });
+
+    return (
+        <mesh
+            ref={meshRef}
+            onPointerOver={() => setHover(true)}
+            onPointerOut={() => setHover(false)}
+        >
+            <planeGeometry args={[1, 1]} />
+            <shaderMaterial
+                ref={materialRef}
+                vertexShader={vertexShader}
+                fragmentShader={fragmentShader}
+                uniforms={uniforms}
+            />
+        </mesh>
+    );
 }
 
-interface SceneProps {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-}
-
-export default function Scene({ src, alt, width, height }: SceneProps) {
+export function Scene({ src, alt }: { src: string; alt: string }) {
     return (
         <div
-            role="img"
-            aria-label={alt}
-            className={styles.Scene}
-            style={{
-                width,
-                height,
-                cursor: "crosshair",
-            }}
+            style={{ width: "500px", height: "400px", position: "relative" }}
         >
-            <Canvas
-                gl={{ antialias: true }}
-                dpr={[1, 2]}
-                camera={{ position: [0, 0, 1], near: 0.1, far: 10 }}
-                style={{ display: "block", width: "100%", height: "100%" }}
-            >
-
+            <Canvas camera={{ position: [0, 0, 0.86] }}>
+                <Suspense fallback={null}>
+                    <ShaderMesh src={src} />
+                </Suspense>
             </Canvas>
         </div>
-    )
+    );
 }

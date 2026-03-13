@@ -1,30 +1,31 @@
 "use client";
-
 import styles from "./page.module.css";
 import dynamic from "next/dynamic";
-const Landing = dynamic(() =>
-    import("@/components/Landing"), {
-    ssr: false
-});
 import { useEffect } from "react";
 import Lenis from "lenis";
 
-export default function Home() {
+const Landing = dynamic(() => import("@/components/Landing"), {
+    ssr: false
+});
 
+export default function Home() {
     useEffect(() => {
         const lenis = new Lenis();
+        let rafId: number; // Keep track of the frame ID
 
         function raf(time: number) {
             lenis.raf(time);
-            requestAnimationFrame(raf);
+            rafId = requestAnimationFrame(raf);
         }
 
-        requestAnimationFrame(raf);
+        rafId = requestAnimationFrame(raf);
 
         return () => {
             lenis.destroy();
+            cancelAnimationFrame(rafId);
         };
     }, []);
+
     return (
         <div className={styles.page}>
             <Landing />

@@ -1,15 +1,17 @@
 .landing {
-  height: 200dvh;
+  min-height: 200dvh;
   width: 100vw;
   background: #f2f2f2;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
   .imageContainer {
     display: flex;
     flex-direction: column;
-    gap: 5rem;
+    gap: 3rem;
     img {
       object-fit: cover;
       cursor: pointer;
