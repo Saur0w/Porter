@@ -45,7 +45,7 @@ function ShaderMesh({ src }: { src: string }) {
     );
 }
 
-export function Scene({ src, alt }: { src: string; alt: string }) {
+export function Scene({ src }: { src: string; alt: string }) {
     return (
         <div
             style={{ width: "500px", height: "400px", position: "relative" }}
