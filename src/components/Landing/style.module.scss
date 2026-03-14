@@ -1,5 +1,4 @@
 .landing {
-  position: relative;
   min-height: 200dvh;
   width: 100vw;
   background: #f2f2f2;
@@ -18,33 +17,4 @@
       cursor: pointer;
     }
   }
-}
-
-.heroText {
-  /* Ensuring text is positioned correctly */
-  padding-top: 50vh;
-  padding-bottom: 50vh;
-}
-
-.title, .subtitle {
-  /* Vital: avoid FOUC (Flash Of Unstyled Content) and layout shifts */
-  margin: 0;
-  padding: 0;
-
-  /* Target the classes injected by GSAP SplitText */
-  :global(.mask-wrapper) {
-    overflow: hidden !important;
-    display: inline-block; /* Keeps words inline, block for lines */
-    vertical-align: bottom; /* Prevents descenders from getting clipped prematurely */
-    padding-bottom: 0.1em; /* Gives a tiny bit of breathing room for hanging letters like 'g' or 'y' */
-  }
-
-  :global(.mask-inner) {
-    display: inline-block;
-    will-change: transform; /* Optimizes for smooth animation */
-  }
-}
-
-.title :global(.mask-wrapper) {
-  margin-right: 0.25em; /* Add space between words since SplitText strips normal spaces */
 }
