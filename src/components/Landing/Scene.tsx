@@ -11,9 +11,9 @@ function ShaderMesh({ src }: { src: string }) {
     const materialRef = useRef<THREE.ShaderMaterial>(null);
     const texture = useTexture(src);
     const [hovered, setHover] = useState(false);
-
     const lastScrollY = useRef(0);
     const targetVelocity = useRef(0);
+    const targetMouse = useRef(new THREE.Vector2(0.5, 0.5));
 
     const uniforms = useMemo(() => ({
         uTexture: { value: texture },
@@ -38,6 +38,7 @@ function ShaderMesh({ src }: { src: string }) {
                 delta * 5
             );
 
+            materialRef.current.uniforms.uMouse.value.lerp(targetMouse.current, delta * 5);
             const currentScrollY = window.scrollY;
             targetVelocity.current = (currentScrollY - lastScrollY.current) * 0.005;
             lastScrollY.current = currentScrollY;
@@ -54,10 +55,13 @@ function ShaderMesh({ src }: { src: string }) {
         <mesh
             ref={meshRef}
             onPointerOver={() => setHover(true)}
-            onPointerOut={() => setHover(false)}
+            onPointerOut={() => {
+                setHover(false);
+                targetMouse.current.set(0.5, 0.5);
+            }}
             onPointerMove={(e) => {
-                if (materialRef.current && e.uv) {
-                    materialRef.current.uniforms.uMouse.value.copy(e.uv);
+                if (e.uv) {
+                    targetMouse.current.copy(e.uv);
                 }
             }}
         >

@@ -4,7 +4,8 @@ import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import Lenis from "lenis";
 
-const Landing = dynamic(() => import("@/components/Landing"), {
+const Landing = dynamic(() =>
+    import("@/components/Landing"), {
     ssr: false
 });
 
