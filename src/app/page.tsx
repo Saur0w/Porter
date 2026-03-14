@@ -12,7 +12,7 @@ const Landing = dynamic(() =>
 export default function Home() {
     useEffect(() => {
         const lenis = new Lenis();
-        let rafId: number; // Keep track of the frame ID
+        let rafId: number;
 
         function raf(time: number) {
             lenis.raf(time);
