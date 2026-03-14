@@ -22,7 +22,6 @@ export default function Landing() {
                 ))}
             </div>
 
-
             <Canvas
                 style={{
                     position: "fixed",
